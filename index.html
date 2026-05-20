@@ -5,66 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Business PRO | The PRO System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-<style>
-    body { font-family: 'Montserrat', system-ui, sans-serif; }
-    .hero-bg { background-color: #efefef; }
-    .dark-blue { color: #01284F; }
-    .pro-color { color: #19abae; }
-
-    /* Desktop Flip Cards */
-    .flip-card {
-        perspective: 1000px;
-        height: 340px;
-    }
-    .flip-card-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
-    }
-    .flip-card:hover .flip-card-inner {
-        transform: rotateY(180deg);
-    }
-    .flip-card-front, .flip-card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        border-radius: 16px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-    }
-    .flip-card-front { background: white; }
-    .flip-card-back { 
-        background: #01284F; 
-        color: white;
-        transform: rotateY(180deg);
-    }
-
-    /* Mobile: Simple stacked cards (much better UX) */
-    @media (max-width: 768px) {
-        .flip-card {
-            height: auto;
-        }
-        .flip-card-inner, .flip-card-front, .flip-card-back {
-            position: relative;
-            transform: none !important;
-            margin-bottom: 24px;
-        }
-    }
-</style>
+    <style>
+        body { font-family: 'Montserrat', system-ui, sans-serif; }
+        .hero-bg { background-color: #efefef; }
+        .dark-blue { color: #01284F; }
+        .pro-color { color: #19abae; }
+    </style>
 </head>
 <body class="bg-gray-50">
 
     <!-- Hero -->
     <section class="hero-bg py-20 text-center">
         <div class="max-w-5xl mx-auto px-6">
-            <img src="The Pro System.png" alt="Your Business PRO" class="mx-auto mb-8 w-[420px]">
+            <img src="ybprologo.png" alt="Your Business PRO" class="mx-auto mb-8 w-[420px]">
             <h1 class="text-5xl md:text-6xl font-bold tracking-tight dark-blue">Your Business <span class="pro-color">PRO</span></h1>
             <p class="text-2xl mt-2">The PRO System</p>
             
@@ -80,55 +33,31 @@
         </div>
     </section>
 
-    <!-- Flip Cards -->
+    <!-- Simple Cards - Works perfectly on mobile -->
     <section class="py-20 bg-white">
         <div class="max-w-5xl mx-auto px-6 text-center">
             <h2 class="text-4xl font-bold mb-12 dark-blue">Your Complete Automated System</h2>
             <div class="grid md:grid-cols-3 gap-8">
 
-                <!-- Card 1 -->
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="text-6xl mb-4">🌐</div>
-                            <h3 class="font-semibold text-xl dark-blue">Online Presence</h3>
-                            <p class="mt-3 text-gray-600">Professional website + Google Business Profile</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h3 class="font-semibold text-xl mb-4">Online Presence</h3>
-                            <p class="text-sm">Custom website, fully optimized Google Business Profile, local SEO, and mobile-friendly design that ranks well.</p>
-                        </div>
-                    </div>
+                <div class="bg-white p-8 rounded-3xl shadow">
+                    <div class="text-6xl mb-4">🌐</div>
+                    <h3 class="font-semibold text-xl dark-blue">Online Presence</h3>
+                    <p class="mt-3 text-gray-600">Professional website + Google Business Profile</p>
+                    <p class="mt-4 text-sm text-gray-500">Custom website, fully optimized Google listing, local SEO, and mobile-friendly design.</p>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="text-6xl mb-4">🤖</div>
-                            <h3 class="font-semibold text-xl dark-blue">Lead Automation</h3>
-                            <p class="mt-3 text-gray-600">AI agent that qualifies leads 24/7</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h3 class="font-semibold text-xl mb-4">Lead Automation</h3>
-                            <p class="text-sm">Smart chatbot that asks qualifying questions, captures info, sends SMS alerts, and helps book jobs automatically.</p>
-                        </div>
-                    </div>
+                <div class="bg-white p-8 rounded-3xl shadow">
+                    <div class="text-6xl mb-4">🤖</div>
+                    <h3 class="font-semibold text-xl dark-blue">Lead Automation</h3>
+                    <p class="mt-3 text-gray-600">AI agent that qualifies leads 24/7</p>
+                    <p class="mt-4 text-sm text-gray-500">Smart chatbot that asks qualifying questions, captures info, sends SMS alerts, and helps book jobs.</p>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <div class="text-6xl mb-4">📈</div>
-                            <h3 class="font-semibold text-xl dark-blue">Results & Growth</h3>
-                            <p class="mt-3 text-gray-600">Social media, reviews, follow-ups & reports</p>
-                        </div>
-                        <div class="flip-card-back">
-                            <h3 class="font-semibold text-xl mb-4">Results & Growth</h3>
-                            <p class="text-sm">Scheduled social posts, automatic review requests, smart follow-ups, Messenger replies, and monthly performance reports.</p>
-                        </div>
-                    </div>
+                <div class="bg-white p-8 rounded-3xl shadow">
+                    <div class="text-6xl mb-4">📈</div>
+                    <h3 class="font-semibold text-xl dark-blue">Results & Growth</h3>
+                    <p class="mt-3 text-gray-600">Social media, reviews, follow-ups & reports</p>
+                    <p class="mt-4 text-sm text-gray-500">Scheduled posts, review automation, smart follow-ups, Messenger replies, and monthly reports.</p>
                 </div>
             </div>
         </div>
@@ -160,7 +89,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-[#01284f] text-white py-12 text-center">
+    <footer class="bg-[#01284F] text-white py-12 text-center">
         <p class="text-xl">Ready to launch your Business PRO?</p>
         <p class="mt-4">Contact Elizabeth • Belle Plaine / Twin Cities Area</p>
     </footer>
