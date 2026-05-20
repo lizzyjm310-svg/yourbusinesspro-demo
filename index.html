@@ -11,7 +11,7 @@
     .dark-blue { color: #01284F; }
     .pro-color { color: #19abae; }
 
-    /* Flip Cards - Desktop only */
+    /* Desktop Flip Cards */
     .flip-card {
         perspective: 1000px;
         height: 340px;
@@ -46,18 +46,15 @@
         transform: rotateY(180deg);
     }
 
-    /* Mobile: Disable flip and stack both sides */
+    /* Mobile: Simple stacked cards (much better UX) */
     @media (max-width: 768px) {
         .flip-card {
             height: auto;
         }
-        .flip-card-inner {
-            transform: none !important;
-        }
-        .flip-card-front, .flip-card-back {
+        .flip-card-inner, .flip-card-front, .flip-card-back {
             position: relative;
             transform: none !important;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
     }
 </style>
