@@ -5,49 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Business PRO | The PRO System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: 'Montserrat', system-ui, sans-serif; }
-        .hero-bg { background-color: #efefef; }
-        .dark-blue { color: #01284F; }
-        .pro-color { color: #19abae; }
+<style>
+    body { font-family: 'Montserrat', system-ui, sans-serif; }
+    .hero-bg { background-color: #efefef; }
+    .dark-blue { color: #01284F; }
+    .pro-color { color: #19abae; }
 
-        /* Simple Flip Cards */
+    /* Better Flip Cards for Mobile */
+    .flip-card {
+        perspective: 1000px;
+        height: 320px;           /* taller for mobile */
+    }
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+    }
+    .flip-card:hover .flip-card-inner,
+    .flip-card:active .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    }
+    .flip-card-front {
+        background: white;
+    }
+    .flip-card-back {
+        background: #01284F;
+        color: white;
+        transform: rotateY(180deg);
+    }
+
+    /* Mobile: Show front and back stacked instead of flip */
+    @media (max-width: 768px) {
         .flip-card {
-            perspective: 1000px;
-            height: 280px;
+            height: auto;
         }
         .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.7s;
-            transform-style: preserve-3d;
-        }
-        .flip-card:hover .flip-card-inner {
-            transform: rotateY(180deg);
+            transform: none !important;
         }
         .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
+            position: relative;
+            transform: none !important;
+            margin-bottom: 20px;
         }
-        .flip-card-front {
-            background: white;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        }
-        .flip-card-back {
-            background: #01284F;
-            color: white;
-            transform: rotateY(180deg);
-        }
-    </style>
+    }
+</style>
 </head>
 <body class="bg-gray-50">
 
