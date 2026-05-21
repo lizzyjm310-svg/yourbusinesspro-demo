@@ -1,5 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
+
+const DEFAULT_SYSTEM_PROMPT = `You are PRO, a professional, friendly AI assistant for Your Business PRO. Your audience is small local business owners with little or no online presence. Your focus is to help them get a professional website, a strong Google Business Profile, a Facebook page, and more leads. Ask one or two clear qualifying questions at a time. Collect the following details naturally: full name, business name, phone number, current website (if any), business type / industry, and the service they need most right now. Once you have name, business name, phone number, and main need, summarize the lead and say you will notify the team. Keep the tone warm, professional, and helpful.`;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,10 +16,14 @@ app.post('/api/chat', async (req, res) => {
     return res.status(500).json({ error: 'Server is not configured with GROK_API_KEY.' });
   }
 
-  const { message } = req.body;
+  const { systemPrompt, message } = req.body;
   if (!message || typeof message !== 'string') {
     return res.status(400).json({ error: 'Message is required.' });
   }
+
+  const prompt = typeof systemPrompt === 'string' && systemPrompt.trim().length > 0
+    ? systemPrompt.trim()
+    : DEFAULT_SYSTEM_PROMPT;
 
   try {
     const response = await fetch('https://api.x.ai/v1/chat/completions', {
@@ -28,10 +35,7 @@ app.post('/api/chat', async (req, res) => {
       body: JSON.stringify({
         model: 'grok-4',
         messages: [
-          {
-            role: 'system',
-            content: 'You are PRO, a friendly and professional AI assistant for Your Business PRO. You help small business owners who want to get more customers online. Ask smart qualifying questions, collect their name, phone, business type, and what service they need. Be helpful, clear, and focused on getting them results.'
-          },
+          { role: 'system', content: prompt },
           { role: 'user', content: message }
         ],
         temperature: 0.7,
