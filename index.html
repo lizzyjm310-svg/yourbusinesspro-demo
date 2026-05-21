@@ -104,5 +104,114 @@
         <p class="text-xl">Ready to launch your Business PRO?</p>
         <p class="mt-4">Contact Elizabeth • Belle Plaine / Twin Cities Area</p>
     </footer>
+
+    <!-- Grok AI Chatbot -->
+    <div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <button onclick="toggleChat()" 
+                style="background: #01284F; color: white; border: none; border-radius: 50px; padding: 14px 24px; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 8px;">
+            💬 Talk to PRO
+        </button>
+    </div>
+
+    <!-- Chat Window -->
+    <div id="chat-window" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 380px; height: 560px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; flex-direction: column;">
+        <div style="background: #01284F; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between;">
+            <span>PRO - Your AI Business Assistant</span>
+            <span onclick="toggleChat()" style="cursor: pointer;">✕</span>
+        </div>
+        <div id="chat-messages" style="flex: 1; padding: 15px; overflow-y: auto; background: #f8f9fa; line-height: 1.5;"></div>
+        <div style="padding: 12px; border-top: 1px solid #eee; display: flex; gap: 8px;">
+            <input id="chat-input" type="text" placeholder="Type your message..." 
+                   style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;">
+            <button onclick="sendMessage()" 
+                    style="background: #01284F; color: white; border: none; padding: 0 24px; border-radius: 8px; font-weight: 600;">Send</button>
+        </div>
+    </div>
+
+    <script>
+    // === CONFIGURATION ===
+    const GROK_API_KEY = "YOUR_GROK_API_KEY_HERE"; // Replace locally, do not commit your real key
+
+    async function sendMessage() {
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+        if (!message) return;
+
+        appendMessage('You', message);
+        input.value = '';
+
+        const typingId = appendTypingIndicator();
+
+        try {
+            const response = await fetch('https://api.x.ai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${GROK_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: 'grok-4',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are PRO, a friendly and professional AI assistant for Your Business PRO. You help small business owners who want to get more customers online. Ask smart qualifying questions, collect their name, phone, business type, and what service they need. Be helpful, clear, and focused on getting them results.'
+                        },
+                        { role: 'user', content: message }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 400
+                })
+            });
+
+            const data = await response.json();
+            const reply = data.choices?.[0]?.message?.content || 'Sorry, I did not get a response. Please try again.';
+
+            removeTypingIndicator(typingId);
+            appendMessage('PRO', reply);
+        } catch (error) {
+            removeTypingIndicator(typingId);
+            appendMessage('PRO', 'Sorry, I\'m having trouble connecting right now. Please try again.');
+            console.error('Chat error:', error);
+        }
+    }
+
+    function appendMessage(sender, text) {
+        const messages = document.getElementById('chat-messages');
+        const div = document.createElement('div');
+        div.style.marginBottom = '16px';
+        div.style.textAlign = sender === 'You' ? 'right' : 'left';
+        div.innerHTML = `<strong>${sender === 'You' ? 'You' : 'PRO'}:</strong> ${text}`;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function appendTypingIndicator() {
+        const messages = document.getElementById('chat-messages');
+        const id = 'typing-' + Date.now();
+        const div = document.createElement('div');
+        div.id = id;
+        div.innerHTML = `<strong>PRO:</strong> <em>typing...</em>`;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+        return id;
+    }
+
+    function removeTypingIndicator(id) {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+    }
+
+    function toggleChat() {
+        const win = document.getElementById('chat-window');
+        win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+    }
+
+    document.getElementById('chat-window').addEventListener('transitionend', function handler() {
+        if (document.getElementById('chat-window').style.display === 'flex' && 
+            document.getElementById('chat-messages').children.length === 0) {
+            appendMessage('PRO', "Hi! I'm PRO, your AI assistant. I'm here to help small business owners get more leads online. What type of business do you have?");
+        }
+    });
+    </script>
 </body>
 </html>
