@@ -17,11 +17,11 @@
 
     <!-- Navigation -->
     <nav class="bg-white shadow py-0.5 px-4 sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="max-w-6xl mx-auto flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
             <a href="index.html" class="flex items-center">
                 <img src="headerlogo.png" alt="Your Business PRO" class="w-[380px] lg:w-[520px] h-auto max-h-[60px] max-w-none object-contain">
             </a>
-            <div class="space-x-8 text-lg">
+            <div class="flex flex-wrap justify-center gap-4 text-lg md:space-x-8">
                 <a href="index.html" class="hover:text-teal-600">Home</a>
                 <a href="services.html" class="hover:text-teal-600 font-medium">Services</a>
                 <a href="how-it-works.html" class="hover:text-teal-600">How It Works</a>
@@ -129,7 +129,60 @@
     </div>
 
     <script>
+    const SYSTEM_PROMPT = `You are PRO, the friendly and professional AI lead-capture assistant for Your Business PRO. Your audience is small local business owners with little or no online presence. Your focus is to help them get a professional website, a strong Google Business Profile, a Facebook page, and more leads.
+
+Ask one or two clear qualifying questions at a time. Collect the following details naturally:
+- Full name
+- Business name
+- Phone number
+- Current website, if any
+- Business type / industry
+- The service they need most right now: website, lead generation, Google Business Profile setup, Facebook page setup, online presence, or marketing support.
+
+If they are unsure, offer the options and guide them gently. Do not overwhelm them with too many questions at once. Once you have the lead's name, business name, phone number, and main need, summarize the lead clearly and say you will notify the team. Do not give pricing or make hard sales claims. Keep the tone warm, professional, and helpful.`;
+
     let chatOpened = false;
+
+    function appendMessage(sender, text, isError = false) {
+        const messages = document.getElementById('chat-messages');
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.justifyContent = sender === 'You' ? 'flex-end' : 'flex-start';
+        wrapper.style.marginBottom = '14px';
+
+        const bubble = document.createElement('div');
+        bubble.style.maxWidth = '82%';
+        bubble.style.padding = '12px 14px';
+        bubble.style.borderRadius = '18px';
+        bubble.style.background = sender === 'You' ? '#01284F' : '#ffffff';
+        bubble.style.color = sender === 'You' ? '#ffffff' : '#202020';
+        bubble.style.boxShadow = sender === 'You' ? '0 8px 18px rgba(1,40,79,0.15)' : '0 4px 12px rgba(0,0,0,0.08)';
+        if (isError) {
+            bubble.style.border = '1px solid #e74c3c';
+        }
+        bubble.innerHTML = `<strong>${sender === 'You' ? 'You' : 'PRO'}:</strong> ${text}`;
+        wrapper.appendChild(bubble);
+        messages.appendChild(wrapper);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function appendTypingIndicator() {
+        const messages = document.getElementById('chat-messages');
+        const id = 'typing-' + Date.now();
+        const div = document.createElement('div');
+        div.id = id;
+        div.style.marginBottom = '14px';
+        div.style.fontStyle = 'italic';
+        div.innerHTML = `<strong>PRO:</strong> <em>typing...</em>`;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+        return id;
+    }
+
+    function removeTypingIndicator(id) {
+        const el = document.getElementById(id);
+        if (el) el.remove();
+    }
 
     async function sendMessage() {
         const input = document.getElementById('chat-input');
@@ -147,14 +200,17 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ message })
+                body: JSON.stringify({
+                    systemPrompt: SYSTEM_PROMPT,
+                    message
+                })
             });
 
             const data = await response.json();
             if (!response.ok) {
                 const errorText = data.detail?.error || data.error || JSON.stringify(data.detail) || JSON.stringify(data);
                 removeTypingIndicator(typingId);
-                appendMessage('PRO', `Sorry, I couldn't connect to the AI service. ${errorText}`);
+                appendMessage('PRO', `Sorry, I couldn't connect to the AI service. ${errorText}`, true);
                 console.error('Chat API returned error:', data);
                 return;
             }
@@ -164,47 +220,20 @@
             appendMessage('PRO', reply);
         } catch (error) {
             removeTypingIndicator(typingId);
-            if (window.location.protocol === 'file:') {
-                appendMessage('PRO', 'This chat needs to be opened from http://localhost:3000, not directly from a file.');
-            } else {
-                appendMessage('PRO', 'Sorry, I\'m having trouble connecting right now. Please try again.');
-            }
+            const messageText = window.location.protocol === 'file:'
+                ? 'This chat works best when the site is opened from http://localhost:3000 after running npm start.'
+                : 'Sorry, I\'m having trouble connecting right now. Please try again.';
+            appendMessage('PRO', messageText, true);
             console.error('Chat error:', error);
         }
-    }
-
-    function appendMessage(sender, text) {
-        const messages = document.getElementById('chat-messages');
-        const div = document.createElement('div');
-        div.style.marginBottom = '16px';
-        div.style.textAlign = sender === 'You' ? 'right' : 'left';
-        div.innerHTML = `<strong>${sender === 'You' ? 'You' : 'PRO'}:</strong> ${text}`;
-        messages.appendChild(div);
-        messages.scrollTop = messages.scrollHeight;
-    }
-
-    function appendTypingIndicator() {
-        const messages = document.getElementById('chat-messages');
-        const id = 'typing-' + Date.now();
-        const div = document.createElement('div');
-        div.id = id;
-        div.innerHTML = `<strong>PRO:</strong> <em>typing...</em>`;
-        messages.appendChild(div);
-        messages.scrollTop = messages.scrollHeight;
-        return id;
-    }
-
-    function removeTypingIndicator(id) {
-        const el = document.getElementById(id);
-        if (el) el.remove();
     }
 
     function showWelcomeMessage() {
         if (chatOpened) return;
         chatOpened = true;
-        appendMessage('PRO', "Hi! I'm PRO, your AI assistant. I'm here to help small business owners get more leads online. What type of business do you have?");
+        appendMessage('PRO', 'Hi! I\'m PRO, your lead-capture assistant for Your Business PRO. I help small businesses build a better online presence and capture leads. What type of business do you run?');
         if (window.location.protocol === 'file:') {
-            appendMessage('PRO', 'Note: This chat works best when the site is opened from http://localhost:3000 after running npm start.');
+            appendMessage('PRO', 'Note: this chat works best when the site is opened from http://localhost:3000 after running npm start.');
         }
     }
 
@@ -214,8 +243,16 @@
         win.style.display = isOpen ? 'none' : 'flex';
         if (!isOpen) {
             showWelcomeMessage();
+            document.getElementById('chat-input').focus();
         }
     }
+
+    document.getElementById('chat-input').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
     </script>
 </body>
 </html>
