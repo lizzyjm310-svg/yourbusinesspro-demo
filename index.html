@@ -129,6 +129,8 @@
     </div>
 
     <script>
+    let chatOpened = false;
+
     async function sendMessage() {
         const input = document.getElementById('chat-input');
         const message = input.value.trim();
@@ -149,13 +151,24 @@
             });
 
             const data = await response.json();
-            const reply = data.choices?.[0]?.message?.content || 'Sorry, I did not get a response. Please try again.';
+            if (!response.ok) {
+                const errorText = data.detail?.error || data.error || JSON.stringify(data.detail) || JSON.stringify(data);
+                removeTypingIndicator(typingId);
+                appendMessage('PRO', `Sorry, I couldn't connect to the AI service. ${errorText}`);
+                console.error('Chat API returned error:', data);
+                return;
+            }
 
+            const reply = data.choices?.[0]?.message?.content || 'Sorry, I did not get a response. Please try again.';
             removeTypingIndicator(typingId);
             appendMessage('PRO', reply);
         } catch (error) {
             removeTypingIndicator(typingId);
-            appendMessage('PRO', 'Sorry, I\'m having trouble connecting right now. Please try again.');
+            if (window.location.protocol === 'file:') {
+                appendMessage('PRO', 'This chat needs to be opened from http://localhost:3000, not directly from a file.');
+            } else {
+                appendMessage('PRO', 'Sorry, I\'m having trouble connecting right now. Please try again.');
+            }
             console.error('Chat error:', error);
         }
     }
@@ -186,17 +199,23 @@
         if (el) el.remove();
     }
 
-    function toggleChat() {
-        const win = document.getElementById('chat-window');
-        win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+    function showWelcomeMessage() {
+        if (chatOpened) return;
+        chatOpened = true;
+        appendMessage('PRO', "Hi! I'm PRO, your AI assistant. I'm here to help small business owners get more leads online. What type of business do you have?");
+        if (window.location.protocol === 'file:') {
+            appendMessage('PRO', 'Note: This chat works best when the site is opened from http://localhost:3000 after running npm start.');
+        }
     }
 
-    document.getElementById('chat-window').addEventListener('transitionend', function handler() {
-        if (document.getElementById('chat-window').style.display === 'flex' && 
-            document.getElementById('chat-messages').children.length === 0) {
-            appendMessage('PRO', "Hi! I'm PRO, your AI assistant. I'm here to help small business owners get more leads online. What type of business do you have?");
+    function toggleChat() {
+        const win = document.getElementById('chat-window');
+        const isOpen = win.style.display === 'flex';
+        win.style.display = isOpen ? 'none' : 'flex';
+        if (!isOpen) {
+            showWelcomeMessage();
         }
-    });
+    }
     </script>
 </body>
 </html>
