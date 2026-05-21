@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Montserrat', system-ui, sans-serif; }
+        .hero-bg { background-color: #efefef; }
         .dark-blue { color: #01284F; }
         .pro-color { color: #19abae; }
     </style>
@@ -30,59 +31,79 @@
         </div>
     </nav>
 
-    <div class="max-w-5xl mx-auto px-6 py-20">
-        <h1 class="text-5xl font-bold text-center dark-blue mb-4">How Your PRO System Works</h1>
-        <p class="text-center text-xl text-gray-600 max-w-2xl mx-auto">From setup to results — we handle everything so you don’t have to.</p>
-
-        <!-- Tier 1 -->
-        <div class="mt-16">
-            <h2 class="text-3xl font-bold dark-blue mb-6">1. Website PRO</h2>
-            <div class="bg-white p-8 rounded-3xl shadow">
-                <p class="text-lg">We build you a professional, mobile-friendly website and optimize your Google Business Profile.</p>
-                <ul class="mt-6 space-y-3 text-gray-600">
-                    <li>✓ Modern website with your branding, services, photos, and contact form</li>
-                    <li>✓ Google Business Profile fully set up and optimized (photos, posts, reviews)</li>
-                    <li>✓ Facebook Business Page created and branded the same way</li>
-                    <li>✓ Basic lead capture form that sends inquiries to your email</li>
-                </ul>
+    <section class="hero-bg py-20 text-center">
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="text-sm uppercase tracking-[0.3em] text-teal-600 font-semibold mb-4">How It Works</p>
+            <h1 class="text-5xl md:text-6xl font-bold dark-blue mb-6">From launch to leads, your PRO system is built and managed for you</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">We design your website, automate lead capture, and keep your marketing running so you can focus on customers, not tech.</p>
+            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                <a href="services.html#packages" class="inline-block bg-[#01284F] text-white px-8 py-4 rounded-2xl text-base font-semibold hover:bg-[#01284F]/90">View Packages</a>
+                <a href="index.html#packages" class="inline-block bg-teal-600 text-white px-8 py-4 rounded-2xl text-base font-semibold hover:bg-teal-600/90">Schedule a free call</a>
             </div>
         </div>
+    </section>
 
-        <!-- Tier 2 -->
-        <div class="mt-16">
-            <h2 class="text-3xl font-bold dark-blue mb-6">2. Lead PRO (Most Popular)</h2>
-            <div class="bg-white p-8 rounded-3xl shadow">
-                <p class="text-lg">Everything in Website PRO + your own AI Lead Agent that works 24/7.</p>
-                <ul class="mt-6 space-y-3 text-gray-600">
-                    <li>✓ Smart AI chatbot on your website that qualifies leads (e.g., “What’s the plumbing issue?”)</li>
-                    <li>✓ Automatic email + SMS notifications when someone inquires</li>
-                    <li>✓ Lead information stored and organized for you</li>
-                    <li>✓ Facebook Messenger replies automated</li>
-                </ul>
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold dark-blue">What happens at each PRO level</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto mt-4">These are the exact features packed into Website PRO, Lead PRO, and Complete PRO.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-3xl shadow-lg border">
+                    <div class="inline-flex items-center justify-center rounded-full bg-[#01284F] text-white w-12 h-12 mb-4">1</div>
+                    <h3 class="text-2xl font-bold dark-blue">Website PRO</h3>
+                    <p class="mt-4 text-gray-700">A clean, professional website with local optimization and easy lead capture.</p>
+                    <ul class="mt-6 space-y-3 text-gray-600 text-left">
+                        <li>✓ Custom, mobile-friendly website built for local customers</li>
+                        <li>✓ Google Business Profile setup & optimization</li>
+                        <li>✓ Facebook Business Page setup and optimization</li>
+                        <li>✓ Fast load times and basic SEO so people find you</li>
+                        <li>✓ Easy contact form + click-to-call on mobile</li>
+                        <li>✓ Simple CMS access so you can update hours or photos</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-teal-600 relative">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-teal-600 text-white px-4 py-1 rounded-full text-sm font-medium">MOST POPULAR</div>
+                    <div class="inline-flex items-center justify-center rounded-full bg-teal-600 text-white w-12 h-12 mb-4">2</div>
+                    <h3 class="text-2xl font-bold dark-blue">Lead PRO</h3>
+                    <p class="mt-4 text-gray-700">Everything in Website PRO plus 24/7 lead automation and follow-up.</p>
+                    <ul class="mt-6 space-y-3 text-gray-600 text-left">
+                        <li>✓ AI lead chatbot that qualifies and routes customers 24/7</li>
+                        <li>✓ Automatic email + SMS alerts when someone inquires</li>
+                        <li>✓ Booking link or call scheduling integration</li>
+                        <li>✓ Automated follow-up sequences to close more leads</li>
+                        <li>✓ Lead capture stored in a simple dashboard</li>
+                        <li>✓ Facebook Messenger replies automated</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-lg border">
+                    <div class="inline-flex items-center justify-center rounded-full bg-[#01284F] text-white w-12 h-12 mb-4">3</div>
+                    <h3 class="text-2xl font-bold dark-blue">Complete PRO</h3>
+                    <p class="mt-4 text-gray-700">The full done-for-you system that keeps your marketing moving every month.</p>
+                    <ul class="mt-6 space-y-3 text-gray-600 text-left">
+                        <li>✓ Everything in Lead PRO</li>
+                        <li>✓ Full AI ops: texts, Messenger responses, and review requests</li>
+                        <li>✓ Social posting & reputation management (monthly)</li>
+                        <li>✓ Monthly performance report with clear action steps</li>
+                        <li>✓ Priority support and customization for your workflow</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-14">
+                <p class="text-gray-600 mb-4">Not sure which package fits your business? We’ll recommend the right option for you.</p>
+                <a href="services.html#packages" class="inline-block bg-[#01284F] text-white px-10 py-5 rounded-2xl text-lg font-semibold hover:bg-[#01284F]/90">Choose Your Package & Get Started</a>
             </div>
         </div>
+    </section>
 
-        <!-- Tier 3 -->
-        <div class="mt-16">
-            <h2 class="text-3xl font-bold dark-blue mb-6">3. Complete PRO</h2>
-            <div class="bg-white p-8 rounded-3xl shadow">
-                <p class="text-lg">The full hands-free system — we become your online marketing department.</p>
-                <ul class="mt-6 space-y-3 text-gray-600">
-                    <li>✓ Everything in Lead PRO</li>
-                    <li>✓ 8–10 scheduled Facebook & Instagram posts per month</li>
-                    <li>✓ Automatic review request system after jobs</li>
-                    <li>✓ AI replies to Google & Facebook reviews</li>
-                    <li>✓ Smart follow-up messages to leads who don’t book right away</li>
-                    <li>✓ Monthly PDF report showing leads, traffic, and growth</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="text-center mt-16">
-            <a href="services.html" class="bg-[#01284F] text-white px-10 py-5 rounded-2xl text-lg font-semibold hover:bg-[#01284F]/90">
-                Choose Your Package & Get Started
-            </a>
-        </div>
-    </div>
+    <footer class="bg-[#01284F] text-white py-12 text-center">
+        <p class="text-xl">Ready to launch your Business PRO?</p>
+        <p class="mt-4">Contact Elizabeth • Belle Plaine / Twin Cities Area</p>
+    </footer>
 </body>
 </html>
