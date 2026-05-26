@@ -19,14 +19,14 @@
     <nav class="bg-white shadow py-0.5 px-4 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto flex flex-col gap-3 md:flex-row md:justify-between md:items-center">
             <a href="index.html" class="flex items-center">
-                <img src="headerlogo.png" alt="Your Business PRO" class="w-[380px] lg:w-[520px] h-auto max-h-[60px] max-w-none object-contain">
+                <img src="headerlogo.png" alt="Your Business PRO" class="w-[260px] md:w-[380px] lg:w-[520px] h-auto max-w-full object-contain">
             </a>
             <div class="flex flex-wrap justify-center gap-4 text-lg md:space-x-8">
                 <a href="index.html" class="hover:text-teal-600">Home</a>
                 <a href="services.html" class="hover:text-teal-600 font-medium">Services</a>
                 <a href="how-it-works.html" class="hover:text-teal-600">How It Works</a>
-                <a href="#" class="hover:text-teal-600">About</a>
-                <a href="#" class="hover:text-teal-600">Contact</a>
+                <a href="about.html" class="hover:text-teal-600">About</a>
+                <a href="about.html#contact" class="hover:text-teal-600">Contact</a>
             </div>
         </div>
     </nav>
@@ -34,7 +34,7 @@
     <!-- Hero -->
     <section class="hero-bg py-24 text-center">
         <div class="max-w-5xl mx-auto px-6">
-            <img src="Logo2.png" alt="Your Business PRO" class="mx-auto mb-10 w-[420px]">
+            <img src="Logo2.png" alt="Your Business PRO" class="mx-auto mb-10 w-full max-w-[420px]">
             <p class="mt-8 text-xl max-w-2xl mx-auto">
                 We build and automate your complete online presence so you get more leads, more calls, and more customers — hands-free.
             </p>
@@ -43,6 +43,24 @@
                    class="bg-[#01284F] text-white px-10 py-5 rounded-2xl text-lg font-semibold hover:bg-[#01284F]/90">
                     Get Your PRO System Today
                 </a>
+            </div>
+            <!-- Quick lead form (hero) -->
+            <div class="mt-6 max-w-md mx-auto">
+                <form id="hero-lead-form" class="bg-white p-4 rounded-xl shadow flex flex-col gap-3" onsubmit="event.preventDefault(); submitLead();">
+                    <input name="name" id="lead-name" placeholder="Your name" class="border p-3 rounded" required>
+                    <input name="business" id="lead-business" placeholder="Business name" class="border p-3 rounded" required>
+                    <input name="phone" id="lead-phone" placeholder="Phone or email" class="border p-3 rounded" required>
+                    <input name="website" id="lead-website" placeholder="Website URL (if any)" class="border p-3 rounded">
+                    <select id="lead-service" class="border p-3 rounded">
+                        <option value="Website">Website</option>
+                        <option value="Google/Facebook setup">Google/Facebook setup</option>
+                        <option value="Lead generation">Lead generation</option>
+                        <option value="Full system">Full system</option>
+                        <option value="Free Online Presence Review/Audit">Free Online Presence Review/Audit</option>
+                    </select>
+                    <button type="submit" class="bg-teal-600 text-white py-3 rounded font-semibold">Get my free review</button>
+                    <div id="lead-form-msg" class="text-sm text-center text-gray-600"></div>
+                </form>
             </div>
         </div>
     </section>
@@ -101,8 +119,17 @@
 
     <!-- Footer -->
     <footer class="bg-[#01284F] text-white py-12 text-center">
-        <p class="text-xl">Ready to launch your Business PRO?</p>
-        <p class="mt-4">Contact Elizabeth • Belle Plaine / Twin Cities Area</p>
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="text-xl">Ready to launch your Business PRO?</p>
+            <div class="mt-6 flex flex-wrap justify-center gap-6 text-sm uppercase tracking-[0.3em]">
+                <a href="index.html" class="hover:text-teal-300">Home</a>
+                <a href="services.html#packages" class="hover:text-teal-300">Services</a>
+                <a href="how-it-works.html" class="hover:text-teal-300">How It Works</a>
+                <a href="about.html" class="hover:text-teal-300">About</a>
+                <a href="about.html#contact" class="hover:text-teal-300">Contact</a>
+            </div>
+            <p class="mt-6">Contact Elizabeth • Belle Plaine / Twin Cities Area</p>
+        </div>
     </footer>
 
     <!-- Grok AI Chatbot -->
@@ -114,7 +141,7 @@
     </div>
 
     <!-- Chat Window -->
-    <div id="chat-window" style="display: none; position: fixed; bottom: 80px; right: 20px; width: 380px; height: 560px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; flex-direction: column;">
+    <div id="chat-window" style="display: none; position: fixed; bottom: 80px; right: 12px; width: min(92vw,380px); max-width:380px; height: 60vh; max-height:680px; background: white; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; flex-direction: column;">
         <div style="background: #01284F; color: white; padding: 15px; font-weight: bold; display: flex; justify-content: space-between;">
             <span>PRO - Your AI Business Assistant</span>
             <span onclick="toggleChat()" style="cursor: pointer;">✕</span>
@@ -129,17 +156,25 @@
     </div>
 
     <script>
-    const SYSTEM_PROMPT = `You are PRO, the friendly and professional AI lead-capture assistant for Your Business PRO. Your audience is small local business owners with little or no online presence. Your focus is to help them get a professional website, a strong Google Business Profile, a Facebook page, and more leads.
+    const SYSTEM_PROMPT = `You are PRO, the friendly and professional AI lead-capture assistant for Your Business PRO. Your audience is small local business owners with little or no online presence. Your goal is to qualify motivated business owners by asking one or two natural questions at a time, then summarize the lead clearly for Elizabeth.
 
-Ask one or two clear qualifying questions at a time. Collect the following details naturally:
-- Full name
+Ask for the business name early, then ask which main service they want in plain language: Website, Google/Facebook setup, Lead generation, Full system, or Free Online Presence Review/Audit.
+
+If they mention a review, audit, or online presence check, specifically collect the following details:
 - Business name
+- Current website URL, if any
+- Facebook page URL, if any
+- Google Business Profile name or location
 - Phone number
-- Current website, if any
-- Business type / industry
-- The service they need most right now: website, lead generation, Google Business Profile setup, Facebook page setup, online presence, or marketing support.
+- Their name
 
-If they are unsure, offer the options and guide them gently. Do not overwhelm them with too many questions at once. Once you have the lead's name, business name, phone number, and main need, summarize the lead clearly and say you will notify the team. Do not give pricing or make hard sales claims. Keep the tone warm, professional, and helpful.`;
+Also gather any details that help Elizabeth look up their business online (review listings, website, Facebook, or Google presence) without making the conversation feel like a form.
+
+If the lead is unsure, offer the service options gently and help them choose the best fit. Do not overwhelm them with too many questions at once. Avoid pricing or hard sales claims.
+
+Once you have the business name and contact information, summarize the lead warmly and say: "I'll pass this over to Elizabeth so she can prepare a custom review for you."`;    
+
+    const chatMessages = [{ role: 'system', content: SYSTEM_PROMPT }];
 
     let chatOpened = false;
 
@@ -190,6 +225,7 @@ If they are unsure, offer the options and guide them gently. Do not overwhelm th
         if (!message) return;
 
         appendMessage('You', message);
+        chatMessages.push({ role: 'user', content: message });
         input.value = '';
 
         const typingId = appendTypingIndicator();
@@ -201,8 +237,7 @@ If they are unsure, offer the options and guide them gently. Do not overwhelm th
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    systemPrompt: SYSTEM_PROMPT,
-                    message
+                    messages: chatMessages
                 })
             });
 
@@ -216,6 +251,7 @@ If they are unsure, offer the options and guide them gently. Do not overwhelm th
             }
 
             const reply = data.choices?.[0]?.message?.content || 'Sorry, I did not get a response. Please try again.';
+            chatMessages.push({ role: 'assistant', content: reply });
             removeTypingIndicator(typingId);
             appendMessage('PRO', reply);
         } catch (error) {
@@ -228,10 +264,48 @@ If they are unsure, offer the options and guide them gently. Do not overwhelm th
         }
     }
 
+    async function submitLead() {
+        const name = document.getElementById('lead-name').value.trim();
+        const business = document.getElementById('lead-business').value.trim();
+        const phone = document.getElementById('lead-phone').value.trim();
+        const website = document.getElementById('lead-website').value.trim();
+        const service = document.getElementById('lead-service').value;
+        const msgEl = document.getElementById('lead-form-msg');
+        msgEl.textContent = '';
+        if (!name || !business || !phone) {
+            msgEl.textContent = 'Please enter your name, business name, and phone or email.';
+            return;
+        }
+
+        try {
+            const resp = await fetch('/api/lead', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, business, phone, website, service, page: window.location.pathname })
+            });
+            const data = await resp.json();
+            if (!resp.ok) {
+                msgEl.textContent = data.error || 'Sorry, something went wrong.';
+                return;
+            }
+            msgEl.textContent = 'Thanks — we received your request. We will reach out shortly.';
+            document.getElementById('hero-lead-form').reset();
+            // also open chat to continue if user wants
+            const win = document.getElementById('chat-window');
+            win.style.display = 'flex';
+            showWelcomeMessage();
+        } catch (err) {
+            msgEl.textContent = 'Unable to submit. Please try again later.';
+            console.error('Lead submit error', err);
+        }
+    }
+
     function showWelcomeMessage() {
         if (chatOpened) return;
         chatOpened = true;
-        appendMessage('PRO', 'Hi! I\'m PRO, your lead-capture assistant for Your Business PRO. I help small businesses build a better online presence and capture leads. What type of business do you run?');
+        const welcome = 'Hi! I\'m PRO, your lead-capture assistant for Your Business PRO. I help small businesses build a better online presence and capture leads. Can I start by asking your business name and the main service you need?';
+        appendMessage('PRO', welcome);
+        chatMessages.push({ role: 'assistant', content: welcome });
         if (window.location.protocol === 'file:') {
             appendMessage('PRO', 'Note: this chat works best when the site is opened from http://localhost:3000 after running npm start.');
         }
